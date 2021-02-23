@@ -12,20 +12,16 @@ gigg(
   grp_idx,
   alpha_inits = rep(0, ncol(C)),
   beta_inits = rep(0, ncol(X)),
-  lambda_sq_inits = rep(1, ncol(X)),
-  gamma_sq_inits = rep(1, length(unique(grp_idx))),
   a = rep(0.5, length(unique(grp_idx))),
   b = rep(0.5, length(unique(grp_idx))),
-  tau_sq_init = 1,
   sigma_sq_init = 1,
-  nu_init = 1,
   n_burn_in = 500,
   n_samples = 1000,
   n_thin = 1,
   stable_const = 1e-07,
   verbose = TRUE,
   btrick = FALSE,
-  stable_solve = FALSE
+  stable_solve = TRUE
 )
 }
 \arguments{
@@ -45,19 +41,11 @@ The \code{grp_idx} vector must be a sequence from 1 to p with no skips. A valid 
 
 \item{beta_inits}{A length p vector containing initial values for the regression coefficients corresponding to X.}
 
-\item{lambda_sq_inits}{A length p vector containing initial values for the local shrinkage parameters.}
-
-\item{gamma_sq_inits}{A length G (where G is the number of unique groups) vector containing initial values for the group shrinkage parameters.}
-
 \item{a}{A length G vector of shape parameters for the prior on the group shrinkage parameters.}
 
 \item{b}{A length G vector of shape parameters for the prior on the individual shrinkage parameters.}
 
-\item{tau_sq_init}{Initial value for the global shrinkage parameter (double).}
-
 \item{sigma_sq_init}{Initial value for the residual variance (double).}
-
-\item{nu_init}{Initial value for the augmentation variable (double).}
 
 \item{n_burn_in}{The number of burn-in samples (integer).}
 
@@ -89,18 +77,11 @@ grp_idx = concentrated$grps
 alpha_inits = concentrated$alpha
 beta_inits = concentrated$beta
 
-gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits, lambda_sq_inits = rep(1, ncol(X)),
-                gamma_sq_inits = rep(1, length(unique(grp_idx))),
-                a = rep(0.5, length(unique(grp_idx))),
-                b = rep(0.5, length(unique(grp_idx))),
-                tau_sq_init = 1, sigma_sq_init = 1, nu_init = 1, n_burn_in = 500,
-                n_samples = 1000, n_thin = 1, stable_const = 1e-07, verbose = TRUE,
-                btrick = FALSE, stable_solve = FALSE)
-gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits, lambda_sq_inits = rep(1, ncol(X)),
-                gamma_sq_inits = rep(1, length(unique(grp_idx))),
-                a = rep(0.5, length(unique(grp_idx))),
-                b = rep(0.5, length(unique(grp_idx))),
-                tau_sq_init = 1, sigma_sq_init = 1, nu_init = 1, n_burn_in = 500,
-                n_samples = 1000, n_thin = 1, stable_const = 1e-07, verbose = TRUE,
-                btrick = FALSE, stable_solve = FALSE)
+gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
+          n_burn_in = 500, n_samples = 1000, n_thin = 1, stable_const = 1e-07, 
+          verbose = TRUE, btrick = FALSE, stable_solve = FALSE)
+gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
+                n_burn_in = 500, n_samples = 1000, n_thin = 1, 
+                stable_const = 1e-07, verbose = TRUE, btrick = FALSE, 
+                stable_solve = FALSE)
 }

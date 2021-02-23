@@ -15,13 +15,9 @@
 #' The `grp_idx` vector must be a sequence from 1 to p with no skips. A valid example is 1,1,1,2,2,3,3,3,4,5,5.
 #' @param alpha_inits A length k vector containing initial values for the regression coefficients corresponding to C.
 #' @param beta_inits A length p vector containing initial values for the regression coefficients corresponding to X.
-#' @param lambda_sq_inits A length p vector containing initial values for the local shrinkage parameters.
-#' @param gamma_sq_inits A length G (where G is the number of unique groups) vector containing initial values for the group shrinkage parameters.
 #' @param a A length G vector of shape parameters for the prior on the group shrinkage parameters.
 #' @param b A length G vector of shape parameters for the prior on the individual shrinkage parameters.
-#' @param tau_sq_init Initial value for the global shrinkage parameter (double).
 #' @param sigma_sq_init Initial value for the residual variance (double).
-#' @param nu_init Initial value for the augmentation variable (double).
 #' @param n_burn_in The number of burn-in samples (integer).
 #' @param n_samples The number of posterior draws (integer).
 #' @param n_thin The thinning interval (integer).
@@ -37,22 +33,20 @@
 #' alpha_inits = concentrated$alpha
 #' beta_inits = concentrated$beta
 #' 
-#' gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits, lambda_sq_inits = rep(1, ncol(X)),
-#'                 gamma_sq_inits = rep(1, length(unique(grp_idx))),
-#'                 a = rep(0.5, length(unique(grp_idx))),
-#'                 b = rep(0.5, length(unique(grp_idx))),
-#'                 tau_sq_init = 1, sigma_sq_init = 1, nu_init = 1, n_burn_in = 500,
-#'                 n_samples = 1000, n_thin = 1, stable_const = 1e-07, verbose = TRUE,
-#'                 btrick = FALSE, stable_solve = FALSE)
-#' gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits, lambda_sq_inits = rep(1, ncol(X)),
-#'                 gamma_sq_inits = rep(1, length(unique(grp_idx))),
-#'                 a = rep(0.5, length(unique(grp_idx))),
-#'                 b = rep(0.5, length(unique(grp_idx))),
-#'                 tau_sq_init = 1, sigma_sq_init = 1, nu_init = 1, n_burn_in = 500,
-#'                 n_samples = 1000, n_thin = 1, stable_const = 1e-07, verbose = TRUE,
-#'                 btrick = FALSE, stable_solve = FALSE)
-gigg = function(X, C, Y, method = "fixed", grp_idx, alpha_inits = rep(0, ncol(C)), beta_inits = rep(0, ncol(X)), lambda_sq_inits = rep(1, ncol(X)), gamma_sq_inits = rep(1.0, length(unique(grp_idx))), a = rep(0.5, length(unique(grp_idx))), b = rep(0.5, length(unique(grp_idx))),
-                tau_sq_init = 1, sigma_sq_init = 1, nu_init = 1, n_burn_in = 500, n_samples = 1000, n_thin = 1, stable_const = 1e-07, verbose = TRUE, btrick = FALSE, stable_solve = FALSE) {
+#' gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
+#'           n_burn_in = 500, n_samples = 1000, n_thin = 1, stable_const = 1e-07, 
+#'           verbose = TRUE, btrick = FALSE, stable_solve = FALSE)
+#' gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
+#'                 n_burn_in = 500, n_samples = 1000, n_thin = 1, 
+#'                 stable_const = 1e-07, verbose = TRUE, btrick = FALSE, 
+#'                 stable_solve = FALSE)
+gigg = function(X, C, Y, method = "fixed", grp_idx, alpha_inits = rep(0, ncol(C)), beta_inits = rep(0, ncol(X)), a = rep(0.5, length(unique(grp_idx))), b = rep(0.5, length(unique(grp_idx))),
+                 sigma_sq_init = 1, n_burn_in = 500, n_samples = 1000, n_thin = 1, stable_const = 1e-07, verbose = TRUE, btrick = FALSE, stable_solve = TRUE) {
+  
+  lambda_sq_inits = rep(1, ncol(X))
+  gamma_sq_inits = rep(1.0, length(unique(grp_idx)))
+  tau_sq_init = 1
+  nu_init = 1
   
   #Store useful quantites
   grp_size <- as.vector(table(grp_idx))
