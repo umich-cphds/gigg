@@ -15,6 +15,7 @@ gigg(
   a = rep(0.5, length(unique(grp_idx))),
   b = rep(0.5, length(unique(grp_idx))),
   sigma_sq_init = 1,
+  tau_sq_init = 1,
   n_burn_in = 500,
   n_samples = 1000,
   n_thin = 1,
@@ -40,11 +41,15 @@ The \code{grp_idx} vector must be a sequence from 1 to p with no skips. A valid 
 
 \item{beta_inits}{A length p vector containing initial values for the regression coefficients corresponding to X.}
 
-\item{a}{A length G vector of shape parameters for the prior on the group shrinkage parameters.}
+\item{a}{A length G vector of shape parameters for the prior on the group shrinkage parameters.
+The \code{a} parameter is only used if the user selects \code{method = 'fixed'}. If \code{method = 'mmle'},
+the \code{a = rep(1/n, length(unique(grp_idx)))}.}
 
 \item{b}{A length G vector of shape parameters for the prior on the individual shrinkage parameters.}
 
 \item{sigma_sq_init}{Initial value for the residual variance (double).}
+
+\item{tau_sq_init}{Initial value for the global shrinkage parameter (double).}
 
 \item{n_burn_in}{The number of burn-in samples (integer).}
 
