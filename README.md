@@ -71,4 +71,4 @@ gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
 
 Boss, J., Datta, J., Wang, X., Park, S.K., Kang, J., & Mukherjee, B.
 (2021). Group Inverse-Gamma Gamma Shrinkage for Sparse Regression with
-Block-Correlated Predictors. arXiv preprint arXiv:2102.10670 (2020).
+Block-Correlated Predictors. arXiv preprint arXiv:2102.10670.
