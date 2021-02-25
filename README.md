@@ -5,7 +5,7 @@
 
 # Group Inverse-Gamma Gamma Shrinkage for Sparse Regression with Grouping Structure
 
-[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/umich-cphds/gigg)
+[![](https://img.shields.io/badge/devel%20version-0.2.1-blue.svg)](https://github.com/umich-cphds/gigg)
 [![](https://img.shields.io/github/languages/code-size/umich-cphds/gigg.svg)](https://github.com/umich-cphds/gigg)
 
 ## Overview
@@ -47,7 +47,7 @@ alpha_inits = concentrated$alpha
 beta_inits = concentrated$beta
 
 gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
-          n_burn_in = 500, n_samples = 1000, n_thin = 1, stable_const = 1e-07, 
+          n_burn_in = 500, n_samples = 1000, n_thin = 1, 
           verbose = TRUE, btrick = FALSE, stable_solve = TRUE)
 ```
 
@@ -64,8 +64,11 @@ beta_inits = concentrated$beta
 
 gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
                 n_burn_in = 500, n_samples = 1000, n_thin = 1, 
-                stable_const = 1e-07, verbose = TRUE, btrick = FALSE, 
-                stable_solve = TRUE)
+                verbose = TRUE, btrick = FALSE, stable_solve = TRUE)
 ```
 
 ### Current Suggested Citation
+
+Boss, J., Datta, J., Wang, X., Park, S.K., Kang, J., & Mukherjee, B.
+(2021). Group Inverse-Gamma Gamma Shrinkage for Sparse Regression with
+Block-Correlated Predictors. arXiv preprint arXiv:2102.10670 (2020).

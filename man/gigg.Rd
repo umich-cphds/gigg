@@ -18,7 +18,6 @@ gigg(
   n_burn_in = 500,
   n_samples = 1000,
   n_thin = 1,
-  stable_const = 1e-07,
   verbose = TRUE,
   btrick = FALSE,
   stable_solve = TRUE
@@ -53,14 +52,31 @@ The \code{grp_idx} vector must be a sequence from 1 to p with no skips. A valid 
 
 \item{n_thin}{The thinning interval (integer).}
 
-\item{stable_const}{Parameter that controls numerical stability of the algorithm (double).}
-
 \item{verbose}{Boolean value which indicates whether or not to print the progress of the Gibbs sampler.}
 
 \item{btrick}{Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.}
 }
 \value{
-A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).
+A list containing
+\itemize{
+\item{"draws"}{ - A list containing the posterior draws of \cr
+(1) the regression coefficients (alphas and betas) \cr
+(2) the individual shrinkage parameters (lambda_sqs) \cr
+(3) the group shrinkage parameters (gamma_sqs) \cr
+(4) the global shrinkage parameter (tau_sqs) and \cr
+(5) the residual error variance (sigma_sqs). \cr The list also contains details
+regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details
+(n_burn_in, n_samples, and n_thin).}
+\item{"beta.hat"}{ - Posterior mean of betas}
+\item{"beta.lcl.95"}{ - 95\% credible interval lower bound of betas}
+\item{"beta.ucl.95"}{ - 95\% credible interval upper bound of betas}
+\item{"alpha.hat"}{ - Posterior mean of alpha}
+\item{"alpha.lcl.95"}{ - 95\% credible interval lower bound of alphas}
+\item{"alpha.ucl.95"}{ - 95\% credible interval upper bound of alphas}
+\item{"sigma_sq.hat"}{ - Posterior mean of sigma squared}
+\item{"sigma_sq.lcl.95"}{ - 95\% credible interval lower bound of sigma sq.}
+\item{"sigma_sq.ucl.95"}{ - 95\% credible interval upper bound of sigma sq.}
+}
 }
 \description{
 Perform GIGG (Group Inverse-Gamma Gamma Shrinkage) regression.
@@ -78,10 +94,15 @@ alpha_inits = concentrated$alpha
 beta_inits = concentrated$beta
 
 gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
-          n_burn_in = 500, n_samples = 1000, n_thin = 1, stable_const = 1e-07, 
+          n_burn_in = 500, n_samples = 1000, n_thin = 1,  
           verbose = TRUE, btrick = FALSE, stable_solve = FALSE)
 gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
                 n_burn_in = 500, n_samples = 1000, n_thin = 1, 
-                stable_const = 1e-07, verbose = TRUE, btrick = FALSE, 
+                verbose = TRUE, btrick = FALSE, 
                 stable_solve = FALSE)
+}
+\references{
+Boss, J., Datta, J., Wang, X., Park, S.K., Kang, J., & Mukherjee, B.
+(2021). Group Inverse-Gamma Gamma Shrinkage for Sparse Regression with Block-Correlated Predictors.
+\href{https://arxiv.org/abs/2102.10670}{arXiv}
 }
