@@ -102,12 +102,15 @@ alpha_inits = concentrated$alpha
 beta_inits = concentrated$beta
 
 gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
-          n_burn_in = 500, n_samples = 1000, n_thin = 1,  
+          n_burn_in = 200, n_samples = 500, n_thin = 1,  
           verbose = TRUE, btrick = FALSE, stable_solve = FALSE)
+\donttest{
 gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
-                n_burn_in = 500, n_samples = 1000, n_thin = 1, 
+                n_burn_in = 200, n_samples = 500, n_thin = 1, 
                 verbose = TRUE, btrick = FALSE, 
                 stable_solve = FALSE)
+}
+
 }
 \references{
 Boss, J., Datta, J., Wang, X., Park, S.K., Kang, J., & Mukherjee, B.

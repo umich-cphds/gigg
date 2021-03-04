@@ -61,12 +61,15 @@
 #' beta_inits = concentrated$beta
 #' 
 #' gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
-#'           n_burn_in = 500, n_samples = 1000, n_thin = 1,  
+#'           n_burn_in = 200, n_samples = 500, n_thin = 1,  
 #'           verbose = TRUE, btrick = FALSE, stable_solve = FALSE)
+#' \donttest{
 #' gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
-#'                 n_burn_in = 500, n_samples = 1000, n_thin = 1, 
+#'                 n_burn_in = 200, n_samples = 500, n_thin = 1, 
 #'                 verbose = TRUE, btrick = FALSE, 
 #'                 stable_solve = FALSE)
+#' }
+#' 
 gigg = function(X, C, Y, method = "mmle", grp_idx, alpha_inits = rep(0, ncol(C)), beta_inits = rep(0, ncol(X)), a = rep(0.5, length(unique(grp_idx))), b = rep(0.5, length(unique(grp_idx))),
                 sigma_sq_init = 1, tau_sq_init = 1, n_burn_in = 500, n_samples = 1000, n_thin = 1, verbose = TRUE, btrick = FALSE, stable_solve = TRUE) {
   
