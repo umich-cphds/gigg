@@ -8,7 +8,7 @@ gigg(
   X,
   C,
   Y,
-  method = "fixed",
+  method = "mmle",
   grp_idx,
   alpha_inits = rep(0, ncol(C)),
   beta_inits = rep(0, ncol(X)),
@@ -25,17 +25,17 @@ gigg(
 )
 }
 \arguments{
-\item{X}{A (n x p) matrix of covariates that we want to apply GIGG shrinkage on.}
+\item{X}{A (n x p) matrix of covariates that to apply GIGG shrinkage on.}
 
-\item{C}{A (n x k) matrix of covariates that we want to apply no shrinkage on (typically intercept + adjustment covariates).}
+\item{C}{A (n x k) matrix of covariates that to apply no shrinkage on (typically intercept + adjustment covariates).}
 
 \item{Y}{A length n vector of responses.}
 
-\item{method}{Either \code{fixed} for grouped horseshoe or \code{mmle} for GIGG regression with MMLE.
-Defaults to method = "fixed".}
+\item{method}{Either \code{fixed} for GIGG regression with fixed hyperparameters or \code{mmle} for GIGG regression with MMLE.
+Defaults to method = "mmle".}
 
 \item{grp_idx}{A length p integer vector indicating which group of the G groups the p covariates in X belong to.
-The \code{grp_idx} vector must be a sequence from 1 to p with no skips. A valid example is 1,1,1,2,2,3,3,3,4,5,5.}
+The \code{grp_idx} vector must be a sequence from 1 to G with no skips. A valid example is 1,1,1,2,2,3,3,3,4,5,5.}
 
 \item{alpha_inits}{A length k vector containing initial values for the regression coefficients corresponding to C.}
 
@@ -43,11 +43,12 @@ The \code{grp_idx} vector must be a sequence from 1 to p with no skips. A valid 
 
 \item{a}{A length G vector of shape parameters for the prior on the group shrinkage parameters.
 The \code{a} parameter is only used if the user selects \code{method = 'fixed'}. If \code{method = 'mmle'},
-the \code{a = rep(1/n, length(unique(grp_idx)))}.}
+then \code{a = rep(1/n, length(unique(grp_idx)))}.}
 
-\item{b}{A length G vector of shape parameters for the prior on the individual shrinkage parameters.}
+\item{b}{A length G vector of shape parameters for the prior on the individual shrinkage parameters. If \code{method = 'mmle'},
+then the \code{b} is used as an inital value for the MMLE procedure.}
 
-\item{sigma_sq_init}{Initial value for the residual variance (double).}
+\item{sigma_sq_init}{Initial value for the residual error variance (double).}
 
 \item{tau_sq_init}{Initial value for the global shrinkage parameter (double).}
 
@@ -60,6 +61,8 @@ the \code{a = rep(1/n, length(unique(grp_idx)))}.}
 \item{verbose}{Boolean value which indicates whether or not to print the progress of the Gibbs sampler.}
 
 \item{btrick}{Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.}
+
+\item{stable_solve}{Boolean value which indicates whether or not to use Cholesky decomposition during the update of the regression coefficients corresponding to X. In our experience, \code{stable_solve = TRUE} is slightly slower, but more stable.}
 }
 \value{
 A list containing
@@ -84,7 +87,7 @@ regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details
 }
 }
 \description{
-Perform GIGG (Group Inverse-Gamma Gamma Shrinkage) regression.
+Perform GIGG (Group Inverse-Gamma Gamma) regression.
 This package implements a Gibbs sampler corresponding to a Group
 Inverse-Gamma Gamma (GIGG) regression model with adjustment covariates.
 Hyperparameters in the GIGG prior specification can either be fixed by the

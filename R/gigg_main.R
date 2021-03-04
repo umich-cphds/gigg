@@ -1,25 +1,26 @@
 #' GIGG regression
 #' 
-#' Perform GIGG (Group Inverse-Gamma Gamma Shrinkage) regression.
+#' Perform GIGG (Group Inverse-Gamma Gamma) regression.
 #' This package implements a Gibbs sampler corresponding to a Group 
 #' Inverse-Gamma Gamma (GIGG) regression model with adjustment covariates. 
 #' Hyperparameters in the GIGG prior specification can either be fixed by the 
 #' user or can be estimated via Marginal Maximum Likelihood Estimation.
 #'
-#' @param X A (n x p) matrix of covariates that we want to apply GIGG shrinkage on.
-#' @param C A (n x k) matrix of covariates that we want to apply no shrinkage on (typically intercept + adjustment covariates).
+#' @param X A (n x p) matrix of covariates that to apply GIGG shrinkage on.
+#' @param C A (n x k) matrix of covariates that to apply no shrinkage on (typically intercept + adjustment covariates).
 #' @param Y A length n vector of responses.
-#' @param method Either `fixed` for grouped horseshoe or `mmle` for GIGG regression with MMLE.
-#' Defaults to method = "fixed".
+#' @param method Either `fixed` for GIGG regression with fixed hyperparameters or `mmle` for GIGG regression with MMLE.
+#' Defaults to method = "mmle".
 #' @param grp_idx A length p integer vector indicating which group of the G groups the p covariates in X belong to.
-#' The `grp_idx` vector must be a sequence from 1 to p with no skips. A valid example is 1,1,1,2,2,3,3,3,4,5,5.
+#' The `grp_idx` vector must be a sequence from 1 to G with no skips. A valid example is 1,1,1,2,2,3,3,3,4,5,5.
 #' @param alpha_inits A length k vector containing initial values for the regression coefficients corresponding to C.
 #' @param beta_inits A length p vector containing initial values for the regression coefficients corresponding to X.
 #' @param a A length G vector of shape parameters for the prior on the group shrinkage parameters.
 #' The `a` parameter is only used if the user selects `method = 'fixed'`. If `method = 'mmle'`,
-#' the `a = rep(1/n, length(unique(grp_idx)))`.
-#' @param b A length G vector of shape parameters for the prior on the individual shrinkage parameters.
-#' @param sigma_sq_init Initial value for the residual variance (double).
+#' then `a = rep(1/n, length(unique(grp_idx)))`.
+#' @param b A length G vector of shape parameters for the prior on the individual shrinkage parameters. If `method = 'mmle'`,
+#' then the `b` is used as an inital value for the MMLE procedure.
+#' @param sigma_sq_init Initial value for the residual error variance (double).
 #' @param tau_sq_init Initial value for the global shrinkage parameter (double).
 #' @param n_burn_in The number of burn-in samples (integer).
 #' @param n_samples The number of posterior draws (integer).
@@ -27,6 +28,7 @@
 # #' @param stable_const Parameter that controls numerical stability of the algorithm (double).
 #' @param verbose Boolean value which indicates whether or not to print the progress of the Gibbs sampler.
 #' @param btrick Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.
+#' @param stable_solve Boolean value which indicates whether or not to use Cholesky decomposition during the update of the regression coefficients corresponding to X. In our experience, `stable_solve = TRUE` is slightly slower, but more stable.
 #' @return A list containing 
 #' \itemize{
 #'  \item{"draws"}{ - A list containing the posterior draws of \cr
@@ -65,7 +67,7 @@
 #'                 n_burn_in = 500, n_samples = 1000, n_thin = 1, 
 #'                 verbose = TRUE, btrick = FALSE, 
 #'                 stable_solve = FALSE)
-gigg = function(X, C, Y, method = "fixed", grp_idx, alpha_inits = rep(0, ncol(C)), beta_inits = rep(0, ncol(X)), a = rep(0.5, length(unique(grp_idx))), b = rep(0.5, length(unique(grp_idx))),
+gigg = function(X, C, Y, method = "mmle", grp_idx, alpha_inits = rep(0, ncol(C)), beta_inits = rep(0, ncol(X)), a = rep(0.5, length(unique(grp_idx))), b = rep(0.5, length(unique(grp_idx))),
                 sigma_sq_init = 1, tau_sq_init = 1, n_burn_in = 500, n_samples = 1000, n_thin = 1, verbose = TRUE, btrick = FALSE, stable_solve = TRUE) {
   
   lambda_sq_inits = rep(1, ncol(X))
