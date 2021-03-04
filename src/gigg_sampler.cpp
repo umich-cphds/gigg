@@ -527,12 +527,12 @@ List gigg_fixed_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma:
     
     ++cnt;
     if (cnt % 500 == 0 && verbose) {
-      std::cout << cnt << " Burn-in Draws" << std::endl;
+      Rcpp::Rcout << cnt << " Burn-in Draws" << std::endl;
     }
   }
   
   if (verbose) {
-    std::cout << "Burn-in Iterations Complete" << std::endl;
+    Rcpp::Rcout << "Burn-in Iterations Complete" << std::endl;
   }
   
   cnt = 0;
@@ -679,7 +679,7 @@ List gigg_fixed_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma:
       
       ++total_saved;
       if (total_saved % 500 == 0 && verbose) {
-        std::cout << total_saved << " Samples Drawn" << std::endl;
+        Rcpp::Rcout << total_saved << " Samples Drawn" << std::endl;
       }
     }
     
@@ -809,7 +809,7 @@ List gigg_mmle_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::
   arma::mat gamma_mmle_store = arma::zeros(mmle_samp_size, J);
   arma::mat eta_mmle_store = arma::zeros(mmle_samp_size, J);
   
-  //std::cout << terminate_mmle << std::endl;
+  //Rcpp::Rcout << terminate_mmle << std::endl;
   
   //Calculate constants for updating sigma and tau
   double tau_shape_const = ((double)M + 1.0) / 2.0;
@@ -1022,22 +1022,22 @@ List gigg_mmle_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::
     
     ++cnt;
     if (cnt % 500 == 0 && verbose) {
-      std::cout << cnt << " Burn-in Draws" << std::endl;
+      Rcpp::Rcout << cnt << " Burn-in Draws" << std::endl;
     }
   }
   
   if (verbose) {
-    std::cout << "Burn-in Iterations Complete" << std::endl;
+    Rcpp::Rcout << "Burn-in Iterations Complete" << std::endl;
   }
   
-  //std::cout << lambda_mmle_store << std::endl;
+  //Rcpp::Rcout << lambda_mmle_store << std::endl;
   
   cnt = 0;
   arma::colvec q_new = q;
   arma::colvec p_new = p;
   while (delta_mmle >= terminate_mmle) {
     
-    //std::cout << "Inside loop" << std::endl;
+    //Rcpp::Rcout << "Inside loop" << std::endl;
     
     //Draw alpha
     alpha = arma::mvnrnd(alpha_term1 - alpha_term2 * beta, sigma_sq*CtCinv);
@@ -1198,10 +1198,10 @@ List gigg_mmle_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::
     //Draw nu
     nu = 1.0 / R::rgamma(1.0, 1.0 / ((1.0 / tau_sq) + (1.0 / sigma_sq)));
     
-    //std::cout << cnt << " count" << std::endl;
-    //std::cout << cnt % mmle_samp_size << " remainder" << std::endl;
+    //Rcpp::Rcout << cnt << " count" << std::endl;
+    //Rcpp::Rcout << cnt % mmle_samp_size << " remainder" << std::endl;
     
-    //std::cout << gamma_mmle_store << std::endl;
+    //Rcpp::Rcout << gamma_mmle_store << std::endl;
     
     //Estimate q
     eta_mmle_store.row(cnt % mmle_samp_size) = eta.t();
@@ -1225,18 +1225,18 @@ List gigg_mmle_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::
         log_lambda_mmle_sum = 0;
       }
       
-      //std::cout << p_new << " a" << std::endl;
-      //std::cout << q_new << " b" << std::endl;
+      //Rcpp::Rcout << p_new << " a" << std::endl;
+      //Rcpp::Rcout << q_new << " b" << std::endl;
       
       //Check Error Tolerance
       //delta_mmle = sum(abs(q_new - q) + abs(p_new - p));
       delta_mmle = ((q_new - q).t()*(q_new - q)).eval()(0, 0) + ((p_new - p).t()*(p_new - p)).eval()(0, 0);
       
-      //std::cout << (q_new - q).t()*(q_new - q) << std::endl;
+      //Rcpp::Rcout << (q_new - q).t()*(q_new - q) << std::endl;
       
-      //std::cout << p << " p" << std::endl;
-      //std::cout << q << " q" << std::endl;
-      //std::cout << delta_mmle << " d" << std::endl;
+      //Rcpp::Rcout << p << " p" << std::endl;
+      //Rcpp::Rcout << q << " q" << std::endl;
+      //Rcpp::Rcout << delta_mmle << " d" << std::endl;
       
       //New p and q vectors
       q = q_new;
@@ -1245,12 +1245,12 @@ List gigg_mmle_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::
     
     ++cnt;
     if (cnt % 500 == 0 && verbose) {
-      std::cout << cnt << " MMLE Draws" << std::endl;
+      Rcpp::Rcout << cnt << " MMLE Draws" << std::endl;
     }
   }
   
   if (verbose) {
-    std::cout << "MMLE Estimate Found" << std::endl;
+    Rcpp::Rcout << "MMLE Estimate Found" << std::endl;
   }
   
   cnt = 0;
@@ -1438,7 +1438,7 @@ List gigg_mmle_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::
       
       ++total_saved;
       if (total_saved % 500 == 0 && verbose) {
-        std::cout << total_saved << " Samples Drawn" << std::endl;
+        Rcpp::Rcout << total_saved << " Samples Drawn" << std::endl;
       }
     }
     
