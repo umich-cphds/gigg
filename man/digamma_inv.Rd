@@ -7,7 +7,9 @@
 digamma_inv(y, precision = 1e-08)
 }
 \arguments{
-\item{x}{value to evaluate the inverse digamma function at.}
+\item{y}{value to evaluate the inverse digamma function at.}
+
+\item{precision}{default = 1e-08.}
 }
 \description{
 Evaluate the inverse diagmma function.

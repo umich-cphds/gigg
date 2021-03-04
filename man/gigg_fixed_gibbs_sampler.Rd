@@ -74,6 +74,8 @@ gigg_fixed_gibbs_sampler(
 \item{verbose}{Boolean value which indicates whether or not to print the progress of the Gibbs sampler.}
 
 \item{btrick}{Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.}
+
+\item{stable_solve}{default to FALSE}
 }
 \value{
 A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).

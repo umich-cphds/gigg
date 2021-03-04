@@ -58,6 +58,7 @@ quick_solve <- function(XtX_inv, D_pos, vec_draw) {
 #' @param stable_const Parameter that controls numerical stability of the algorithm (double).
 #' @param verbose Boolean value which indicates whether or not to print the progress of the Gibbs sampler.
 #' @param btrick Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.
+#' @param stable_solve default to FALSE
 #' @return A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).
 gigg_fixed_gibbs_sampler <- function(X, C, Y, grp_idx, grp_size, grp_size_cs, alpha_inits, beta_inits, lambda_sq_inits, gamma_sq_inits, eta_inits, p, q, tau_sq_init = 1, sigma_sq_init = 1, nu_init = 1, n_burn_in = 500L, n_samples = 1000L, n_thin = 1L, stable_const = 1e-07, verbose = TRUE, btrick = FALSE, stable_solve = FALSE) {
     .Call(`_gigg_gigg_fixed_gibbs_sampler`, X, C, Y, grp_idx, grp_size, grp_size_cs, alpha_inits, beta_inits, lambda_sq_inits, gamma_sq_inits, eta_inits, p, q, tau_sq_init, sigma_sq_init, nu_init, n_burn_in, n_samples, n_thin, stable_const, verbose, btrick, stable_solve)
@@ -66,7 +67,8 @@ gigg_fixed_gibbs_sampler <- function(X, C, Y, grp_idx, grp_size, grp_size_cs, al
 #' Inverse digamma function.
 #'
 #' Evaluate the inverse diagmma function.
-#' @param x value to evaluate the inverse digamma function at.
+#' @param y value to evaluate the inverse digamma function at.
+#' @param precision default = 1e-08.
 digamma_inv <- function(y, precision = 1e-08) {
     .Call(`_gigg_digamma_inv`, y, precision)
 }
@@ -96,6 +98,7 @@ digamma_inv <- function(y, precision = 1e-08) {
 #' @param stable_const Parameter that controls numerical stability of the algorithm (double).
 #' @param verbose Boolean value which indicates whether or not to print the progress of the Gibbs sampler.
 #' @param btrick Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.
+#' @param stable_solve default to FALSE
 #' @return A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).
 gigg_mmle_gibbs_sampler <- function(X, C, Y, grp_idx, grp_size, grp_size_cs, alpha_inits, beta_inits, lambda_sq_inits, gamma_sq_inits, eta_inits, p_inits, q_inits, tau_sq_init = 1, sigma_sq_init = 1, nu_init = 1, n_burn_in = 500L, n_samples = 1000L, n_thin = 1L, stable_const = 1e-07, verbose = TRUE, btrick = FALSE, stable_solve = FALSE) {
     .Call(`_gigg_gigg_mmle_gibbs_sampler`, X, C, Y, grp_idx, grp_size, grp_size_cs, alpha_inits, beta_inits, lambda_sq_inits, gamma_sq_inits, eta_inits, p_inits, q_inits, tau_sq_init, sigma_sq_init, nu_init, n_burn_in, n_samples, n_thin, stable_const, verbose, btrick, stable_solve)
