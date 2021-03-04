@@ -150,9 +150,9 @@ gigg = function(X, C, Y, method = "mmle", grp_idx, alpha_inits = rep(0, ncol(C))
     
   }
   
-  alpha.draws = post_summary(gigg$alphas)
-  beta.draws = post_summary(gigg$betas)
-  sigma_sq.draws = post_summary(gigg$sigma_sqs, dimension = 2)
+  alpha.draws = .post_summary(gigg$alphas)
+  beta.draws = .post_summary(gigg$betas)
+  sigma_sq.draws = .post_summary(gigg$sigma_sqs, dimension = 2)
   
   return(list(draws = gigg, 
               beta.hat = beta.draws["mean",], 
