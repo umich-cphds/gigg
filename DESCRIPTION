@@ -6,7 +6,8 @@ Description: A Gibbs sampler corresponding to a Group
     Inverse-Gamma Gamma (GIGG) regression model with adjustment covariates. 
     Hyperparameters in the GIGG prior specification can either be fixed by the 
     user or can be estimated via Marginal Maximum Likelihood Estimation.
-    <arXiv:2102.10670>.
+    Jonathan Boss, Jyotishka Datta, Xin Wang, Sung Kyun Park, Jian Kang, Bhramar 
+    Mukherjee (2021) <arXiv:2102.10670>.
 Authors@R: c(
     person(given = "Jon", family = "Boss", role = c("aut"), email = "gutian@umich.edu"),
     person(given = "Bhramar", family = "Mukherjee", role = c("aut"), email = "bhramar@umich.edu"),

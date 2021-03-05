@@ -695,9 +695,10 @@ List gigg_fixed_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma:
 
 //' Inverse digamma function.
 //'
-//' Evaluate the inverse diagmma function.
+//' Evaluate the inverse digamma function.
 //' @param y value to evaluate the inverse digamma function at.
 //' @param precision default = 1e-08.
+//' @return Numeric inverse digamma value.
 // [[Rcpp::export]]
 double digamma_inv(double y, double precision = 1e-08) {
   double x_old = 1.0;

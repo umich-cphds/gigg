@@ -11,6 +11,9 @@ digamma_inv(y, precision = 1e-08)
 
 \item{precision}{default = 1e-08.}
 }
+\value{
+Numeric inverse digamma value.
+}
 \description{
-Evaluate the inverse diagmma function.
+Evaluate the inverse digamma function.
 }

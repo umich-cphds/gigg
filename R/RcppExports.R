@@ -66,9 +66,10 @@ gigg_fixed_gibbs_sampler <- function(X, C, Y, grp_idx, grp_size, grp_size_cs, al
 
 #' Inverse digamma function.
 #'
-#' Evaluate the inverse diagmma function.
+#' Evaluate the inverse digamma function.
 #' @param y value to evaluate the inverse digamma function at.
 #' @param precision default = 1e-08.
+#' @return Numeric inverse digamma value.
 digamma_inv <- function(y, precision = 1e-08) {
     .Call(`_gigg_digamma_inv`, y, precision)
 }
