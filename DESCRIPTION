@@ -28,5 +28,5 @@ Imports:
     Rcpp
 URL: https://github.com/umich-cphds/gigg
 BugReports: https://github.com/umich-cphds/gigg/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)

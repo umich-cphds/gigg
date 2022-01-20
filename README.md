@@ -43,12 +43,9 @@ X = concentrated$X
 C = concentrated$C
 Y = as.vector(concentrated$Y)
 grp_idx = concentrated$grps
-alpha_inits = concentrated$alpha
-beta_inits = concentrated$beta
 
-gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
-          n_burn_in = 500, n_samples = 1000, n_thin = 1, 
-          verbose = TRUE, btrick = FALSE, stable_solve = TRUE)
+gf = gigg(X, C, Y, method = "fixed", grp_idx, n_burn_in = 500, n_samples = 1000, 
+          n_thin = 1, verbose = TRUE, btrick = FALSE, stable_solve = TRUE)
 ```
 
 GIGG regression Gibbs sampler with hyperparameter estimation via
@@ -59,12 +56,10 @@ X = concentrated$X
 C = concentrated$C
 Y = as.vector(concentrated$Y)
 grp_idx = concentrated$grps
-alpha_inits = concentrated$alpha
-beta_inits = concentrated$beta
 
-gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
-                n_burn_in = 500, n_samples = 1000, n_thin = 1, 
-                verbose = TRUE, btrick = FALSE, stable_solve = TRUE)
+gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, n_burn_in = 500, 
+               n_samples = 1000, n_thin = 1, verbose = TRUE, btrick = FALSE, 
+               stable_solve = TRUE)
 ```
 
 ### Current Suggested Citation

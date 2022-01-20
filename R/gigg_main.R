@@ -57,17 +57,14 @@
 #' C = concentrated$C
 #' Y = as.vector(concentrated$Y)
 #' grp_idx = concentrated$grps
-#' alpha_inits = concentrated$alpha
-#' beta_inits = concentrated$beta
 #' 
-#' gf = gigg(X, C, Y, method = "fixed", grp_idx, alpha_inits, beta_inits,
-#'           n_burn_in = 200, n_samples = 500, n_thin = 1,  
-#'           verbose = TRUE, btrick = FALSE, stable_solve = FALSE)
+#' gf = gigg(X, C, Y, method = "fixed", grp_idx, n_burn_in = 200, 
+#'           n_samples = 500, n_thin = 1, verbose = TRUE, btrick = FALSE, 
+#'           stable_solve = FALSE)
 #' \donttest{
-#' gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, alpha_inits, beta_inits,
-#'                 n_burn_in = 200, n_samples = 500, n_thin = 1, 
-#'                 verbose = TRUE, btrick = FALSE, 
-#'                 stable_solve = FALSE)
+#' gf_mmle = gigg(X, C, Y, method = "mmle", grp_idx, n_burn_in = 200, 
+#'                n_samples = 500, n_thin = 1, verbose = TRUE, btrick = FALSE, 
+#'                stable_solve = FALSE)
 #' }
 #' 
 gigg = function(X, C, Y, method = "mmle", grp_idx, alpha_inits = rep(0, ncol(C)), beta_inits = rep(0, ncol(X)), a = rep(0.5, length(unique(grp_idx))), b = rep(0.5, length(unique(grp_idx))),
