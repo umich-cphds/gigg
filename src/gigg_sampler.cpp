@@ -116,12 +116,12 @@ using namespace Rcpp;
 //   return final_draw / alpha;
 // }
 
-//' Solve function with Cholesky decomposition.
-//'
-//' An Rcpp function that solves M*U = V.
-//' @param M A (M x M) symmetric positive definite matrix.
-//' @param V A (M x 1) vector.
-//' @return The solution to M*U = V.
+// //' Solve function with Cholesky decomposition.
+// //'
+// //' An Rcpp function that solves M*U = V.
+// //' @param M A (M x M) symmetric positive definite matrix.
+// //' @param V A (M x 1) vector.
+// //' @return The solution to M*U = V.
 // [[Rcpp::export]]
 arma::colvec chol_solve(arma::mat& M, arma::colvec& V) {
   arma::mat R = arma::chol(M);
@@ -129,13 +129,13 @@ arma::colvec chol_solve(arma::mat& M, arma::colvec& V) {
   return(arma::solve(trimatu(R), b_star));
 }
 
-//' Randomly generate a generalized inverse gaussian random variable.
-//'
-//' Randomly generates one draw from a generalized inverse gaussian distribution.
-//' @param chi A positive double.
-//' @param psi A positive double.
-//' @param lambda A non-negative double.
-//' @return A random draw from the generalized inverse gaussian distribution with parameters chi, psi, and lambda (double).
+// //' Randomly generate a generalized inverse gaussian random variable.
+// //'
+// //' Randomly generates one draw from a generalized inverse gaussian distribution.
+// //' @param chi A positive double.
+// //' @param psi A positive double.
+// //' @param lambda A non-negative double.
+// //' @return A random draw from the generalized inverse gaussian distribution with parameters chi, psi, and lambda (double).
 // [[Rcpp::export]]
 double rgig_cpp(double chi, double psi, double lambda) {
   double final_draw = 0;
@@ -239,13 +239,13 @@ double rgig_cpp(double chi, double psi, double lambda) {
   return final_draw / alpha;
 }
 
-//' Iterative one rank update for matrix inverse.
-//'
-//' An Rcpp function that computes the matrix inverse of XtX + D_pos.
-//' @param XtX_inv A precomputed (M x M) matrix inverse.
-//' @param D_pos A (M x 1) vector of the square root of the diagonal entries in the D matrix.
-//' @param vec_draw A (M x 1) vector drawn from a multivariate normal distribution.
-//' @return The solution to (XtX + D)*U = vec_draw.
+// //' Iterative one rank update for matrix inverse.
+// //'
+// //' An Rcpp function that computes the matrix inverse of XtX + D_pos.
+// //' @param XtX_inv A precomputed (M x M) matrix inverse.
+// //' @param D_pos A (M x 1) vector of the square root of the diagonal entries in the D matrix.
+// //' @param vec_draw A (M x 1) vector drawn from a multivariate normal distribution.
+// //' @return The solution to (XtX + D)*U = vec_draw.
 // [[Rcpp::export]]
 arma::colvec quick_solve(arma::mat& XtX_inv, arma::colvec& D_pos, arma::colvec& vec_draw) {
   int p = XtX_inv.n_cols;
@@ -284,33 +284,33 @@ arma::colvec quick_solve(arma::mat& XtX_inv, arma::colvec& D_pos, arma::colvec& 
 // }
 
 
-//' Gibbs sampler for GIGG regression with fixed hyperparameters.
-//'
-//' An Rcpp function that implements a Gibbs sampler for GIGG regression with fixed hyperparameters.
-//' @param X A (n x M) matrix of covariates that we want to apply GIGG shrinkage on.
-//' @param C A (n x K) matrix of covariates that we want to apply no shrinkage on (typically intercept + adjustment covariates).
-//' @param Y A (n x 1) column vector of responses.
-//' @param grp_idx A (1 x M) row vector indicating which group of the J groups the M covariates in X belong to.
-//' @param grp_size A (1 x J) row vector indicating the number of covariates in each group.
-//' @param grp_size_cs A (1 x J) row vector that is the cumulative sum of grp_size (indicating the indicies where each group ends).
-//' @param alpha_inits A (K x 1) column vector containing initial values for the regression coefficients corresponding to C.
-//' @param beta_inits A (M x 1) column vector containing initial values for the regression coefficients corresponding to X.
-//' @param lambda_sq_inits A (M x 1) column vector containing initial values for the local shrinkage parameters.
-//' @param gamma_sq_inits A (J x 1) column vector containing initial values for the group shrinkage parameters.
-//' @param eta_inits A (J x 1) column vector containing initial values for the mixing parameters.
-//' @param p A (J x 1) column vector of shape parameter for the prior on the group shrinkage parameters.
-//' @param q A (J x 1) column vector of shape parameter for the prior on the individual shrinkage parameters.
-//' @param tau_sq_init Initial value for the global shrinkage parameter (double).
-//' @param sigma_sq_init Initial value for the residual variance (double).
-//' @param nu_init Initial value for the augmentation variable (double).
-//' @param n_burn_in The number of burn-in samples (integer).
-//' @param n_samples The number of posterior draws (integer).
-//' @param n_thin The thinning interval (integer).
-//' @param stable_const Parameter that controls numerical stability of the algorithm (double).
-//' @param verbose Boolean value which indicates whether or not to print the progress of the Gibbs sampler.
-//' @param btrick Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.
-//' @param stable_solve default to FALSE
-//' @return A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).
+// //' Gibbs sampler for GIGG regression with fixed hyperparameters.
+// //'
+// //' An Rcpp function that implements a Gibbs sampler for GIGG regression with fixed hyperparameters.
+// //' @param X A (n x M) matrix of covariates that we want to apply GIGG shrinkage on.
+// //' @param C A (n x K) matrix of covariates that we want to apply no shrinkage on (typically intercept + adjustment covariates).
+// //' @param Y A (n x 1) column vector of responses.
+// //' @param grp_idx A (1 x M) row vector indicating which group of the J groups the M covariates in X belong to.
+// //' @param grp_size A (1 x J) row vector indicating the number of covariates in each group.
+// //' @param grp_size_cs A (1 x J) row vector that is the cumulative sum of grp_size (indicating the indicies where each group ends).
+// //' @param alpha_inits A (K x 1) column vector containing initial values for the regression coefficients corresponding to C.
+// //' @param beta_inits A (M x 1) column vector containing initial values for the regression coefficients corresponding to X.
+// //' @param lambda_sq_inits A (M x 1) column vector containing initial values for the local shrinkage parameters.
+// //' @param gamma_sq_inits A (J x 1) column vector containing initial values for the group shrinkage parameters.
+// //' @param eta_inits A (J x 1) column vector containing initial values for the mixing parameters.
+// //' @param p A (J x 1) column vector of shape parameter for the prior on the group shrinkage parameters.
+// //' @param q A (J x 1) column vector of shape parameter for the prior on the individual shrinkage parameters.
+// //' @param tau_sq_init Initial value for the global shrinkage parameter (double).
+// //' @param sigma_sq_init Initial value for the residual variance (double).
+// //' @param nu_init Initial value for the augmentation variable (double).
+// //' @param n_burn_in The number of burn-in samples (integer).
+// //' @param n_samples The number of posterior draws (integer).
+// //' @param n_thin The thinning interval (integer).
+// //' @param stable_const Parameter that controls numerical stability of the algorithm (double).
+// //' @param verbose Boolean value which indicates whether or not to print the progress of the Gibbs sampler.
+// //' @param btrick Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.
+// //' @param stable_solve default to FALSE
+// //' @return A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).
 // [[Rcpp::export]]
 List gigg_fixed_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::rowvec& grp_idx, arma::rowvec& grp_size, arma::rowvec& grp_size_cs,
                               arma::colvec& alpha_inits, arma::colvec& beta_inits, arma::colvec& lambda_sq_inits, arma::colvec& gamma_sq_inits, arma::colvec& eta_inits,
@@ -718,33 +718,33 @@ double digamma_inv(double y, double precision = 1e-08) {
   return x_new;
 }
 
-//' Gibbs sampler for GIGG regression with hyperparameters estimated via MMLE.
-//'
-//' An Rcpp function that implements a Gibbs sampler for GIGG regression with hyperparameters estimated via MMLE.
-//' @param X A (n x M) matrix of covariates that we want to apply GIGG shrinkage on.
-//' @param C A (n x K) matrix of covariates that we want to apply no shrinkage on (typically intercept + adjustment covariates).
-//' @param Y A (n x 1) column vector of responses.
-//' @param grp_idx A (1 x M) row vector indicating which group of the J groups the M covariates in X belong to.
-//' @param grp_size A (1 x J) row vector indicating the number of covariates in each group.
-//' @param grp_size_cs A (1 x J) row vector that is the cumulative sum of grp_size (indicating the indicies where each group ends).
-//' @param alpha_inits A (K x 1) column vector containing initial values for the regression coefficients corresponding to C.
-//' @param beta_inits A (M x 1) column vector containing initial values for the regression coefficients corresponding to X.
-//' @param lambda_sq_inits A (M x 1) column vector containing initial values for the local shrinkage parameters.
-//' @param gamma_sq_inits A (J x 1) column vector containing initial values for the group shrinkage parameters.
-//' @param eta_inits A (J x 1) column vector containing initial values for the mixing parameters.
-//' @param p_inits A (J x 1) column vector of initial shape parameter for the prior on the group shrinkage parameters.
-//' @param q_inits A (J x 1) column vector of inital shape parameter for the prior on the individual shrinkage parameters.
-//' @param tau_sq_init Initial value for the global shrinkage parameter (double).
-//' @param sigma_sq_init Initial value for the residual variance (double).
-//' @param nu_init Initial value for the augmentation variable (double).
-//' @param n_burn_in The number of burn-in samples (integer).
-//' @param n_samples The number of posterior draws (integer).
-//' @param n_thin The thinning interval (integer).
-//' @param stable_const Parameter that controls numerical stability of the algorithm (double).
-//' @param verbose Boolean value which indicates whether or not to print the progress of the Gibbs sampler.
-//' @param btrick Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.
-//' @param stable_solve default to FALSE
-//' @return A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).
+// //' Gibbs sampler for GIGG regression with hyperparameters estimated via MMLE.
+// //'
+// //' An Rcpp function that implements a Gibbs sampler for GIGG regression with hyperparameters estimated via MMLE.
+// //' @param X A (n x M) matrix of covariates that we want to apply GIGG shrinkage on.
+// //' @param C A (n x K) matrix of covariates that we want to apply no shrinkage on (typically intercept + adjustment covariates).
+// //' @param Y A (n x 1) column vector of responses.
+// //' @param grp_idx A (1 x M) row vector indicating which group of the J groups the M covariates in X belong to.
+// //' @param grp_size A (1 x J) row vector indicating the number of covariates in each group.
+// //' @param grp_size_cs A (1 x J) row vector that is the cumulative sum of grp_size (indicating the indicies where each group ends).
+// //' @param alpha_inits A (K x 1) column vector containing initial values for the regression coefficients corresponding to C.
+// //' @param beta_inits A (M x 1) column vector containing initial values for the regression coefficients corresponding to X.
+// //' @param lambda_sq_inits A (M x 1) column vector containing initial values for the local shrinkage parameters.
+// //' @param gamma_sq_inits A (J x 1) column vector containing initial values for the group shrinkage parameters.
+// //' @param eta_inits A (J x 1) column vector containing initial values for the mixing parameters.
+// //' @param p_inits A (J x 1) column vector of initial shape parameter for the prior on the group shrinkage parameters.
+// //' @param q_inits A (J x 1) column vector of inital shape parameter for the prior on the individual shrinkage parameters.
+// //' @param tau_sq_init Initial value for the global shrinkage parameter (double).
+// //' @param sigma_sq_init Initial value for the residual variance (double).
+// //' @param nu_init Initial value for the augmentation variable (double).
+// //' @param n_burn_in The number of burn-in samples (integer).
+// //' @param n_samples The number of posterior draws (integer).
+// //' @param n_thin The thinning interval (integer).
+// //' @param stable_const Parameter that controls numerical stability of the algorithm (double).
+// //' @param verbose Boolean value which indicates whether or not to print the progress of the Gibbs sampler.
+// //' @param btrick Boolean value which indicates whether or not to use the computational trick in Bhattacharya et al. (2016). Only recommended if number of covariates is much larger than the number of observations.
+// //' @param stable_solve default to FALSE
+// //' @return A list containing the posterior draws of (1) the regression coefficients (alphas and betas) (2) the individual shrinkage parameters (lambda_sqs) (3) the group shrinkage parameters (gamma_sqs) (4) the global shrinkage parameter (tau_sqs) and (5) the residual error variance (sigma_sqs). The list also contains details regarding the dataset (X, C, Y, grp_idx) and Gibbs sampler details (n_burn_in, n_samples, and n_thin).
 // [[Rcpp::export]]
 List gigg_mmle_gibbs_sampler(arma::mat& X, arma::mat& C, arma::colvec& Y, arma::rowvec& grp_idx, arma::rowvec& grp_size, arma::rowvec& grp_size_cs,
                              arma::colvec& alpha_inits, arma::colvec& beta_inits, arma::colvec& lambda_sq_inits, arma::colvec& gamma_sq_inits, arma::colvec& eta_inits,
